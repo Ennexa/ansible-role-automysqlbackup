@@ -1,0 +1,27 @@
+---
+- name: create config file
+  copy: 
+    content: ""
+    dest: /etc/automysqlbackup/{{ file }}.conf 
+    owner: "{{ automysqlbackup_user }}"
+    group: "{{ automysqlbackup_group }}"
+    force: no
+    mode: 0600
+
+- name: update configuration
+  lineinfile: >
+    dest="/etc/automysqlbackup/{{ file }}.conf"
+    regexp="^CONFIG_{{ item.key }}="
+    line='CONFIG_{{ item.key }}="{{ item.value }}"'
+  with_dict: "{{ config }}"
+  when: item.key != "db_names"
+
+- name: update configuration
+  lineinfile: >
+    dest="/etc/automysqlbackup/{{ file }}.conf"
+    regexp="^CONFIG_{{ item }}="
+    line='CONFIG_{{ item }}=('{{ config[item] | join("' '") }}')'
+  with_items:
+    - db_names
+    - db_month_names
+  when: config[item] is defined

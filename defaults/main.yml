@@ -1,0 +1,11 @@
+automysqlbackup_conf:
+  automysqlbackup:
+    mysql_dump_username: 'root'
+    mysql_dump_password: ''
+    mysql_dump_host: 'localhost'
+    mysql_dump_host_friendly: '{{ ansible_nodename }}'
+    backup_dir: '~/backup'
+    db_names: "('mysql')"
+
+automysqlbackup_user: root
+automysqlbackup_group: root

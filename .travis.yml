@@ -1,0 +1,41 @@
+---
+language: python
+python: '2.7'
+
+env:
+  global:
+    - SITE=local_host.yml
+  matrix:
+    - VARS=""
+    - VARS='ipset=true statistical_graphs=false'
+    - VARS='ipset=false statistical_graphs=true'
+    - VARS='ipset=true statistical_graphs=true'
+
+before_install:
+  - sudo apt-get update
+
+install:
+  - pip install ansible
+  - ansible --version
+  - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
+
+script:
+  - ansible-playbook -i meta/tests/inventory meta/tests/$SITE --syntax-check
+  - ansible-playbook -i meta/tests/inventory meta/tests/$SITE --connection=local --sudo --extra-vars="$VARS"
+
+notifications:
+  email:
+    recipients:
+      secure: K6bXbF/pQM/emavsDAGlijWQahtlTkFp7pIKvAAsuOv4R4ex3dMDAFakoUBZMxDBtPmcwJhakKOh5uJunu498UV7dojgFPOgmYG6Hg8lXaldjeiKqJeROz3oHLIAisNv5trANlJHEP25AGrQTtZPD5WyY/mcnm371ZEJ7LwqHjI=
+    on_success: always
+    on_failure: always
+  hipchat:
+    rooms:
+      secure: UemuIs0KqmLitq34w/EdgdKJVfpM3Yv6oTZK1cjhRDChRQ81QNkYaJmDaUzsRsHwe54RU6SqG3Y6wgUDa5alKcs2x61FLLSXWdSG+C+R2a2HtzU7C4TXHCzdDqQurdmBX3iWmjmRvfEd9bli7AMCXOernPFxEfCwhkqSc9yaAu8=
+    notify: true
+  webhooks:
+    urls:
+      secure: "PVqTJ1Dtj3sHUSqMc3LE0S5hjkoKzFyRQ6G2pWLa5ChsrxEr6k0Tsezuk3NNe3qENnsrpG9lsWfLtHNGMiLIyhNpfK+eKMsTnTiZzB3lb/7vpt7EJmJeHsZ+WkbzpzTwV7TZrdYFP4JPqmhqcxjnhahTNB0F9nGWOrhQfTxprwo="
+    on_success: change 
+    on_failure: always 
+    on_start: false 

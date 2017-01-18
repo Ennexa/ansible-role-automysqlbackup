@@ -1,0 +1,8 @@
+---
+# Tasks for AutoMySQLBackup Configuration
+
+# Include AutoMySQLBackup install
+- include: install.yml
+
+# Include our configs
+- include: configs.yml

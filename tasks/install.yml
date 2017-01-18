@@ -1,0 +1,39 @@
+---
+- name: check if automysqlbackup is installed
+  stat: path=/usr/local/bin/automysqlbackup
+  register: result
+  ignore_errors: true
+
+- name: create installation directory
+  file: path=/opt/automysqlbackup state=directory
+  when: result.stat.exists == False
+
+- name: extract automysqlbackup archive
+  unarchive: src=https://sourceforge.net/projects/automysqlbackup/files/AutoMySQLBackup/AutoMySQLBackup%20VER%203.0/automysqlbackup-v3.0_rc6.tar.gz dest=/opt/automysqlbackup/ copy=no
+  when: result.stat.exists == False
+
+- name: install automysqlbackup
+  command: bash install.sh
+  args:
+    chdir: /opt/automysqlbackup
+  when: result.stat.exists == False
+
+- name: create config file
+  file: 
+    path: /usr/local/bin/automysqlbackup
+    state: file
+    mode: 0755
+# - name: install python-pip
+#   yum: name=python-pip state=present
+#
+# - name: install pexpect python module
+#   command: "pip install -U pexpect"
+#
+# - name: install automysqlbackup
+#   expect:
+#     command: sh install.sh
+#     chdir: /opt/automysqlbackup
+#     responses:
+#       configuration directory: /etc/automysqlbackup
+#       directory for the executable: /usr/local/bin
+#   when: result|failed
