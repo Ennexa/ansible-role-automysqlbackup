@@ -14,7 +14,7 @@
     regexp="^CONFIG_{{ item.key }}="
     line='CONFIG_{{ item.key }}="{{ item.value }}"'
   with_dict: "{{ config }}"
-  when: item.key != "db_names"
+  when: item.key != "db_names" and item.key != "table_exclude"
 
 - name: update configuration
   lineinfile: >
@@ -23,5 +23,5 @@
     line='CONFIG_{{ item }}=('{{ config[item] | join("' '") }}')'
   with_items:
     - db_names
-    - db_month_names
+    - table_exclude
   when: config[item] is defined
