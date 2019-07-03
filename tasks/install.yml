@@ -19,7 +19,7 @@
   when: result.stat.exists == False
 
 - name: create config file
-  file: 
+  file:
     path: /usr/local/bin/automysqlbackup
     state: file
     mode: 0755

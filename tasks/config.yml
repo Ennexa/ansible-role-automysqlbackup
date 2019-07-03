@@ -1,8 +1,8 @@
 ---
 - name: create config file
-  copy: 
+  copy:
     content: ""
-    dest: /etc/automysqlbackup/{{ file }}.conf 
+    dest: /etc/automysqlbackup/{{ file }}.conf
     owner: "{{ automysqlbackup_user }}"
     group: "{{ automysqlbackup_group }}"
     force: no
