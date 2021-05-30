@@ -1,15 +1,21 @@
 ---
 - name: check if automysqlbackup is installed
-  stat: path=/usr/local/bin/automysqlbackup
+  stat:
+    path: /usr/local/bin/automysqlbackup
   register: result
   ignore_errors: true
 
 - name: create installation directory
-  file: path=/opt/automysqlbackup state=directory
+  file:
+    path: /opt/automysqlbackup
+    state: directory
   when: result.stat.exists == False
 
 - name: extract automysqlbackup archive
-  unarchive: src=https://sourceforge.net/projects/automysqlbackup/files/AutoMySQLBackup/AutoMySQLBackup%20VER%203.0/automysqlbackup-v3.0_rc6.tar.gz dest=/opt/automysqlbackup/ copy=no
+  unarchive:
+    src: https://sourceforge.net/projects/automysqlbackup/files/AutoMySQLBackup/AutoMySQLBackup%20VER%203.0/automysqlbackup-v3.0_rc6.tar.gz
+    dest: /opt/automysqlbackup/
+    copy: no
   when: result.stat.exists == False
 
 - name: install automysqlbackup
@@ -24,7 +30,9 @@
     state: file
     mode: 0755
 # - name: install python-pip
-#   yum: name=python-pip state=present
+#   yum:
+#     name: python-pip
+#     state: present
 #
 # - name: install pexpect python module
 #   command: "pip install -U pexpect"
