@@ -22,7 +22,7 @@
   command: bash install.sh
   args:
     chdir: /opt/automysqlbackup
-    stdin: ""
+    stdin: "/etc/automysqlbackup\n"
   when: result.stat.exists == False
 
 - name: create config file
