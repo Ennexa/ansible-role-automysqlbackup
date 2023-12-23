@@ -2,7 +2,7 @@
 # Tasks for AutoMySQLBackup Configuration
 
 # Include AutoMySQLBackup install
-- include: install.yml
+- import_tasks: install.yml
 
 # Include our configs
-- include: configs.yml
+- import_tasks: configs.yml

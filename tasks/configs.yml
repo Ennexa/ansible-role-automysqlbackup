@@ -1,6 +1,6 @@
 ---
 - name: update configuration
-  include: config.yml file={{ conf.key }} config={{ conf.value }}
+  include_tasks: config.yml file={{ conf.key }} config={{ conf.value }}
   with_dict: "{{ automysqlbackup_conf }}"
   loop_control:
     loop_var: conf
